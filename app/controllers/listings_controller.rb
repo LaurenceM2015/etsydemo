@@ -13,7 +13,13 @@ class ListingsController < ApplicationController
   # GET /listings
   # GET /listings.json
   def index
+    if params[:category].blank?
     @listings = Listing.all.order("created_at DESC")
+  else
+    @category_id = Category.find_by(name: params[:category]).id
+    @listings = Listing.where(category_id: @category_id).order("created_at DESC")
+  end
+    
   end
 
   # GET /listings/1
@@ -45,11 +51,11 @@ class ListingsController < ApplicationController
           :type => "individual",
           :bank_account => token
           )
-        end
+       # end
 
         current_user.recipient = recipient.id
         current_user.save
-
+end
     respond_to do |format|
       if @listing.save
         format.html { redirect_to @listing, notice: 'Listing was successfully created.' }
@@ -93,7 +99,7 @@ class ListingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def listing_params
-          params.require(:listing).permit(:name, :description, :price, :image)
+          params.require(:listing).permit(:name, :category_id, :description, :price, :image)
         end
         
     def check_user
