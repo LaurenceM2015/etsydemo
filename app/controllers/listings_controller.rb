@@ -13,6 +13,7 @@ class ListingsController < ApplicationController
   # GET /listings
   # GET /listings.json
   def index
+    # this code check if the category parmeter was pass
     if params[:category].blank?
     @listings = Listing.all.order("created_at DESC")
   else
