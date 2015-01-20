@@ -98,6 +98,7 @@ end
       end
 
     # Never trust parameters from the scary internet, only allow the white list through.
+    # for security reason we need to add everytime we add a new form field because our app need to know this an additional parameter
     def listing_params
           params.require(:listing).permit(:name, :category_id, :description, :price, :image)
         end
